@@ -1,0 +1,71 @@
+name: growthlog-community
+x-app: &app
+  image: growthlog-community:local
+  build:
+    context: .
+    args:
+      GROWTHLOG_VERSION: ${GROWTHLOG_VERSION:-11.13.2-community.1}
+  env_file: .env
+  environment:
+    DATABASE_URL: mysql+pymysql://growthlog:${MYSQL_PASSWORD:?set MYSQL_PASSWORD}@db:3306/growth_log?charset=utf8mb4
+    JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET}
+    PYTHONPATH: /app
+    RAG_EMBEDDING_ALLOW_DOWNLOAD: "false"
+    ATTACHMENT_UPLOAD_BACKGROUND_FALLBACK_ENABLED: "false"
+    OMP_NUM_THREADS: "1"
+    MKL_NUM_THREADS: "1"
+    OPENBLAS_NUM_THREADS: "1"
+    TOKENIZERS_PARALLELISM: "false"
+    TZ: Asia/Shanghai
+  volumes:
+    - uploads:/app/uploads
+    - vector_indexes:/app/vector_indexes
+    - logs:/app/logs
+    - ./models/multilingual-e5-base:/app/models/multilingual-e5-base:ro
+  depends_on:
+    db:
+      condition: service_healthy
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: growth_log
+      MYSQL_USER: growthlog
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?set MYSQL_PASSWORD}
+      TZ: Asia/Shanghai
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "--default-time-zone=+08:00"]
+    volumes: [mysql_data:/var/lib/mysql]
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysqladmin ping -h localhost -uroot --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+  app:
+    <<: *app
+    ports: ["127.0.0.1:8000:8000"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=4)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+  worker:
+    <<: *app
+    command: ["python", "-m", "scripts.process_attachments", "--loop", "--interval", "30", "--retry-failed"]
+    restart: unless-stopped
+  notification-worker:
+    <<: *app
+    command: ["python", "-m", "scripts.process_notifications", "--loop", "--interval", "60"]
+    restart: unless-stopped
+  prepare-model:
+    image: growthlog-community:local
+    profiles: ["setup"]
+    volumes: ["./models:/model-output"]
+    entrypoint: ["python", "-m", "scripts.community_model", "--output", "/model-output/multilingual-e5-base"]
+volumes:
+  mysql_data:
+  uploads:
+  vector_indexes:
+  logs:

@@ -1,0 +1,92 @@
+/**
+ * GrowthLog 工作台设计令牌
+ * 中性灰白 + 克制蓝，无渐变营销风
+ */
+:root {
+  /* 颜色 — 背景与表面 */
+  --wb-bg: #f5f6f8;
+  --wb-surface: #ffffff;
+  --wb-surface-muted: #f0f1f4;
+  --wb-border: #e2e5ea;
+  --wb-border-strong: #cdd2da;
+
+  /* 颜色 — 文字 */
+  --wb-text: #1a1d24;
+  --wb-text-secondary: #5c6370;
+  --wb-text-muted: #8b929e;
+  --wb-text-inverse: #ffffff;
+
+  /* 颜色 — 品牌蓝（克制） */
+  --wb-accent: #2563eb;
+  --wb-accent-hover: #1d4ed8;
+  --wb-accent-soft: #eff4ff;
+  --wb-accent-border: #bfdbfe;
+
+  /* 状态色 */
+  --wb-status-success: #15803d;
+  --wb-status-success-bg: #ecfdf3;
+  --wb-status-success-border: #bbf7d0;
+  --wb-status-warn: #b45309;
+  --wb-status-warn-bg: #fffbeb;
+  --wb-status-warn-border: #fde68a;
+  --wb-status-error: #b91c1c;
+  --wb-status-error-bg: #fef2f2;
+  --wb-status-error-border: #fecaca;
+  --wb-status-info: #0369a1;
+  --wb-status-info-bg: #f0f9ff;
+  --wb-status-info-border: #bae6fd;
+  --wb-status-neutral: #64748b;
+  --wb-status-neutral-bg: #f1f5f9;
+  --wb-status-neutral-border: #e2e8f0;
+
+  /* 字体 */
+  --wb-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --wb-font-size-xs: 0.75rem;
+  --wb-font-size-sm: 0.8125rem;
+  --wb-font-size-base: 0.875rem;
+  --wb-font-size-md: 1rem;
+  --wb-font-size-lg: 1.125rem;
+  --wb-font-weight-normal: 400;
+  --wb-font-weight-medium: 500;
+  --wb-font-weight-semibold: 600;
+  --wb-font-weight-bold: 700;
+  --wb-line-height: 1.5;
+  --wb-letter-spacing: 0;
+
+  /* 间距 */
+  --wb-space-1: 0.25rem;
+  --wb-space-2: 0.5rem;
+  --wb-space-3: 0.75rem;
+  --wb-space-4: 1rem;
+  --wb-space-5: 1.25rem;
+  --wb-space-6: 1.5rem;
+  --wb-space-8: 2rem;
+
+  /* 边框与圆角（卡片 ≤ 8px） */
+  --wb-radius-sm: 4px;
+  --wb-radius-md: 6px;
+  --wb-radius-lg: 8px;
+  --wb-border-width: 1px;
+
+  /* 阴影（ subtle ） */
+  --wb-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --wb-shadow-md: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --wb-shadow-lg: 0 4px 16px rgba(15, 23, 42, 0.08);
+
+  /* z-index 层级 */
+  --wb-z-header: 30;
+  --wb-z-dropdown: 40;
+  --wb-z-overlay: 50;
+  --wb-z-panel: 60;
+  --wb-z-modal: 70;
+
+  /* 焦点环 */
+  --wb-focus-ring: 0 0 0 2px var(--wb-surface), 0 0 0 4px var(--wb-accent);
+  --wb-focus-ring-offset: 2px;
+
+  /* 控件尺寸（稳定高度） */
+  --wb-control-height: 44px;
+  --wb-control-height-sm: 36px;
+  --wb-icon-button-size: 36px;
+  --wb-icon-button-size-sm: 32px;
+}
