@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 # Executed only in the temporary CI Compose environment.
-export DATABASE_URL="mysql+pymysql://root:${MYSQL_ROOT_PASSWORD}@db:3306/growth_log?charset=utf8mb4"
+export DATABASE_URL="mysql+pymysql://root:${MYSQL_ROOT_PASSWORD}@127.0.0.1:3306/growth_log?charset=utf8mb4"
 cd /workspace
 python backend/scripts/test_label_list_isolation.py
 python backend/scripts/test_r1130_query_planner.py

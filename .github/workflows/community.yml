@@ -58,7 +58,7 @@ jobs:
         run: docker compose exec -T -e COMMUNITY_SMOKE=1 app python -m scripts.community_http_smoke
       - name: Focused AI and source contracts
         run: |
-          docker compose run --rm --volume "$PWD:/workspace:ro" --volume "$(which node):/usr/local/bin/node:ro" --entrypoint bash app /workspace/scripts/community_contracts.sh
+          docker run --rm --network "container:$(docker compose ps -q db)" --env-file .env -e RAG_EMBEDDING_ALLOW_DOWNLOAD=false --volume "$PWD:/workspace:ro" --volume "$(which node):/usr/local/bin/node:ro" --entrypoint bash growthlog-community:local /workspace/scripts/community_contracts.sh
       - name: Final process health
         run: |
           docker compose ps
