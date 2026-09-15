@@ -37,7 +37,7 @@ services:
     command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "--default-time-zone=+08:00"]
     volumes: [mysql_data:/var/lib/mysql]
     healthcheck:
-      test: ["CMD-SHELL", "MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysqladmin ping -h localhost -uroot --silent"]
+      test: ["CMD-SHELL", "MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysql --protocol=TCP -h 127.0.0.1 -uroot -D growth_log -e 'SELECT 1'"]
       interval: 5s
       timeout: 5s
       retries: 30

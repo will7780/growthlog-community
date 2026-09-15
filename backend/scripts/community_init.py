@@ -70,5 +70,6 @@ if __name__ == "__main__":
     try:
         initialize() if args.action == "init" else create_admin()
     except Exception as exc:
-        print("COMMUNITY_SETUP_FAILED:" + (str(exc) if isinstance(exc, RuntimeError) else type(exc).__name__))
+        code = getattr(getattr(exc, "orig", None), "args", [None])[0]
+        print("COMMUNITY_SETUP_FAILED:" + (str(exc) if isinstance(exc, RuntimeError) else type(exc).__name__) + (":" + str(code) if isinstance(code, int) else ""))
         raise SystemExit(1)

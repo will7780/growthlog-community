@@ -10,5 +10,5 @@ python backend/scripts/test_r110_todo_ai_sources.py
 python backend/scripts/test_todo_priority.py
 python backend/scripts/test_todo_completion_note.py
 python backend/scripts/test_r7_today_plan.py
-python backend/scripts/test_r101_web_push.py
+python backend/scripts/community_notifications.py
 python -m compileall -q /app/app /app/scripts

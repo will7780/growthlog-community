@@ -21,6 +21,9 @@ jobs:
           python-version: '3.13'
       - name: Public source privacy
         run: python scripts/community_privacy.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - uses: docker/setup-buildx-action@v3
       - name: Build and load isolated CPU image
         uses: docker/build-push-action@v6
@@ -36,6 +39,7 @@ jobs:
           python scripts/setup_env.py
           docker compose up -d --wait db
           docker compose run --rm app python -m scripts.community_init init
+          docker compose run --rm app python -m scripts.community_admin_smoke
           if docker compose run --rm app python -m scripts.community_init init; then
             echo "Nonempty database was not rejected"
             exit 1
@@ -54,7 +58,7 @@ jobs:
         run: docker compose exec -T -e COMMUNITY_SMOKE=1 app python -m scripts.community_http_smoke
       - name: Focused AI and source contracts
         run: |
-          docker compose run --rm --volume "$PWD:/workspace:ro" --entrypoint bash app /workspace/scripts/community_contracts.sh
+          docker compose run --rm --volume "$PWD:/workspace:ro" --volume "$(which node):/usr/local/bin/node:ro" --entrypoint bash app /workspace/scripts/community_contracts.sh
       - name: Final process health
         run: |
           docker compose ps

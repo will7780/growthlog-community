@@ -19,14 +19,14 @@ sys.path.insert(0, str(BACKEND))
 os.environ["WEB_PUSH_USE_FAKE"] = "true"
 os.environ["WEB_PUSH_ENABLED"] = "true"
 os.environ["WEB_PUSH_SUBSCRIPTION_ENCRYPTION_KEY"] = base64.urlsafe_b64encode(os.urandom(32)).decode().rstrip("=")
-os.environ["NOTIFICATION_PUBLIC_BASE_URL"] = "http://localhost:8000"
+os.environ["NOTIFICATION_PUBLIC_BASE_URL"] = "https://example.com"
 
 from app.config import settings
 
 settings.web_push_use_fake = True
 settings.web_push_enabled = True
 settings.web_push_subscription_encryption_key = os.environ["WEB_PUSH_SUBSCRIPTION_ENCRYPTION_KEY"]
-settings.notification_public_base_url = "http://localhost:8000"
+settings.notification_public_base_url = "https://example.com"
 settings.web_push_vapid_public_key = None
 settings.web_push_vapid_private_key = None
 
@@ -258,7 +258,7 @@ const sandbox = {
 vm.createContext(sandbox);
 vm.runInContext(code, sandbox);
 const mod = sandbox.module.exports;
-const origin = 'http://localhost:8000';
+const origin = 'https://example.com';
 const def = origin + '/app?tab=todos&review=1';
 const cases = [
   ['/\\\\evil.com', def],
